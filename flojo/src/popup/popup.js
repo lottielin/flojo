@@ -1,10 +1,24 @@
+/*global chrome*/
+
 import React from "react";
 import "./popup.css";
 
+import Basic from "../components/basic";
 const Popup = () => {
+  const handleBtnClick = () => {
+    chrome.runtime.sendMessage({ commmand: "basic" }, (resp) => {
+      console.log(resp);
+    });
+  };
   return (
     <div>
-      <h1>Hello World</h1>
+      <div className="container">
+        Hello World
+        <Basic />
+        <button class="btn" onClick={handleBtnClick}>
+          Interact with background
+        </button>
+      </div>
     </div>
   );
 };

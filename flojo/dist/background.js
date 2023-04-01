@@ -1,0 +1,1 @@
+chrome.runtime.onMessage.addListener((function(s,e,a){(s.command="basic")&&(console.log("Basic command"),a({type:"auth",status:"success",message:!0}))}));
