@@ -6,10 +6,51 @@ import { useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { TextField, Button } from "@mui/material";
 
+import { firebaseApp } from "../popup/firebase_config";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithCredential,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+
+const auth = getAuth(firebaseApp);
+
 const Register = () => {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const [loginError, setLoginError] = React.useState("");
 
+  //   const handleClick = () => {
+  //     chrome.runtime.sendMessage({ commmand: "registerUser" }, (resp) => {
+  //       console.log(resp);
+  //     });
+  //   };
+
+  const handleGoogle = (interactive) => {
+    console.log("Google login");
+    chrome.identity.getAuthToken({ interactive: true }, function (token) {
+      if (chrome.runtime.lastError && !interactive) {
+        console.log("It was not possible to get a token programmatically.");
+      } else if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      } else if (token) {
+        const credential = GoogleAuthProvider.credential(null, token);
+        signInWithCredential(auth, credential)
+          .then((result) => {
+            console.log("Success!!!");
+            console.log(result);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        console.error("The OAuth token was null");
+      }
+    });
+  };
   const { handleSubmit, handleChange, touched, values, errors } = useFormik({
     initialValues: {
       email: "",
@@ -17,37 +58,31 @@ const Register = () => {
     },
     onSubmit: ({ email, password }) => {
       console.log("submit:");
-      //   chrome.runtime.sendMessage({ commmand: "basic" }, (resp) => {
-      //     console.log(resp);
-      //   });
+      chrome.runtime.sendMessage(
+        {
+          commmand: "registerUser",
+          data: { email: email, password: password },
+        },
+        (resp) => {
+          console.log(resp);
+          return true;
+        }
+      );
       //   nav("/home");
 
-      //   signInWithEmailAndPassword(auth, email, password)
-      //     .then((userCredential) => {
-      //       // Signed in
-      //       const user = userCredential.user;
-      //       console.log("Successfully logged in user:", user);
-      //       navigate("/home");
-      //       // ...
-      //     })
-      //     .catch((error) => {
-      //       const errorCode = error.code;
-      //       const errorMessage = error.message;
-      //       console.log("Error signing in:", error.message);
-      //       switch (errorCode) {
-      //         case "auth/user-not-found":
-      //           setLoginError("User not found.");
-      //           break;
-      //         case "auth/wrong-password":
-      //           setLoginError("Wrong password.");
-      //           break;
-      //         case "auth/too-many-requests":
-      //           setLoginError("Too many login requests.");
-      //           break;
-      //         default:
-      //           setLoginError(errorMessage);
-      //       }
-      //     });
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("Successfully created user:", user);
+          // navigate("/home");
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("Error registering:", error.message);
+        });
     },
   });
 
@@ -55,7 +90,11 @@ const Register = () => {
     <div>
       <div className="container">
         <div className="login-body">
-          <div>Log in with Email</div>
+          <div>Register</div>
+          {/* <button onClick={handleClick}>Test btn</button> */}
+          <button onClick={() => handleGoogle(true)}>
+            Continue with Google
+          </button>
           <form className="email-form" onSubmit={handleSubmit}>
             <TextField
               id="email"
