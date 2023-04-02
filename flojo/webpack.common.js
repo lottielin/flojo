@@ -8,6 +8,7 @@ module.exports = {
     popup: path.resolve("src/popup/index.js"),
     background: path.resolve("src/background/background.js"),
     content: path.resolve("src/content/content.js"),
+    // firebase_config: path.resolve("src/popup/firebase_config.js"),
   },
   module: {
     rules: [
@@ -38,6 +39,10 @@ module.exports = {
       patterns: [
         {
           from: path.resolve("src/static"),
+          to: path.resolve("dist"),
+        },
+        {
+          from: path.resolve("./manifest.json"),
           to: path.resolve("dist"),
         },
       ],

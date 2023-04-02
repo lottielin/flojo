@@ -3,22 +3,26 @@
 import React from "react";
 import "./popup.css";
 
-import Basic from "../components/basic";
+import { RouterProvider, createHashRouter } from "react-router-dom";
+import { createMemoryHistory } from "history";
+
+import Register from "../pages/register";
+import Login from "../pages/login";
+import Home from "../pages/home";
+
+const history = createMemoryHistory();
+
+const router = createHashRouter([
+  { path: "/", element: <Register /> },
+  { path: "/register", element: <Register /> },
+  { path: "/login", element: <Login /> },
+  { path: "/home", element: <Home /> },
+]);
+
 const Popup = () => {
-  const handleBtnClick = () => {
-    chrome.runtime.sendMessage({ commmand: "basic" }, (resp) => {
-      console.log(resp);
-    });
-  };
   return (
     <div>
-      <div className="container">
-        Hello World
-        <Basic />
-        <button class="btn" onClick={handleBtnClick}>
-          Interact with background
-        </button>
-      </div>
+      <RouterProvider router={router} history={history} />
     </div>
   );
 };

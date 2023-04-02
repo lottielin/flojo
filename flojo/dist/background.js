@@ -1,1 +1,1 @@
-chrome.runtime.onMessage.addListener((function(s,e,a){(s.command="basic")&&(console.log("Basic command"),a({type:"auth",status:"success",message:!0}))}));
+chrome.runtime.onMessage.addListener((function(e,s,t){(e.command="registerUser")&&t({type:"auth",status:"success",message:!0})}));
