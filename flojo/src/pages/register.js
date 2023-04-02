@@ -83,42 +83,39 @@ const Register = () => {
 
   return (
     <div>
-      <div className="container">
-        <div className="login-body">
-          <div>Register</div>
-          {/* <button onClick={handleClick}>Test btn</button> */}
-          <button onClick={() => handleGoogleAuth(true)}>
-            Continue with Google
-          </button>
-          <form className="email-form" onSubmit={handleSubmit}>
-            <TextField
-              id="email"
-              name="email"
-              label="Email"
-              fullWidth
-              value={values.email}
-              onChange={handleChange}
-            />
+      <div>
+        <div>Register</div>
+        {/* <button onClick={handleClick}>Test btn</button> */}
+        <button onClick={() => handleGoogleAuth(true)}>
+          Continue with Google
+        </button>
+        <form className="email-form" onSubmit={handleSubmit}>
+          <TextField
+            id="email"
+            name="email"
+            label="Email"
+            fullWidth
+            value={values.email}
+            onChange={handleChange}
+          />
 
-            <TextField
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              fullWidth
-              value={values.password}
-              onChange={handleChange}
-            />
+          <TextField
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            fullWidth
+            value={values.password}
+            onChange={handleChange}
+          />
 
-            <Button type="submit" variant="contained">
-              Register with Email
-            </Button>
-          </form>
+          <Button type="submit" variant="contained">
+            Register with Email
+          </Button>
+        </form>
 
-          <div className="register-option">
-            <Link to="/login">Already have an account?</Link>
-            <Navigate to="/login">Test nav</Navigate>
-          </div>
+        <div className="register-option">
+          <Link to="/login">Already have an account?</Link>
         </div>
       </div>
     </div>

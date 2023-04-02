@@ -20,9 +20,10 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    console.log("[Home] Signing out");
-    auth.signOut();
-    navigate("/login");
+    console.log("[Home] User signing out", user);
+    auth.signOut().then((resp) => {
+      navigate("/login");
+    });
   };
 
   React.useEffect(() => {

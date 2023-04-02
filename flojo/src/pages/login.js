@@ -89,14 +89,14 @@ const Login = () => {
   });
 
   React.useEffect(() => {
-    // auth.onAuthStateChanged((user) => {
-    //   if (user != null) {
-    //     console.log("[Login] User is logged in:", user);
-    //     navigate("/home");
-    //   } else {
-    //     console.log("[Login] No user logged in!");
-    //   }
-    // });
+    auth.onAuthStateChanged((user) => {
+      if (user != null) {
+        console.log("[Login] User is logged in:", user);
+        navigate("/home");
+      } else {
+        console.log("[Login] No user logged in!");
+      }
+    });
   }, []);
 
   return (
@@ -134,7 +134,13 @@ const Login = () => {
           </form>
 
           <div className="register-option">
-            <Link to="/">Don't have an account yet?</Link>
+            <button
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Don't have an account yet?
+            </button>
           </div>
         </div>
       </div>

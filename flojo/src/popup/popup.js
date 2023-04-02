@@ -14,6 +14,7 @@ const history = createMemoryHistory();
 
 const router = createHashRouter([
   { path: "/", element: <Register /> },
+  { path: "/register", element: <Register /> },
   { path: "/login", element: <Login /> },
   { path: "/home", element: <Home /> },
 ]);
