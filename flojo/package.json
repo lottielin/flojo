@@ -25,7 +25,8 @@
     "react-scripts": "5.0.1",
     "style-loader": "^3.3.2",
     "web-vitals": "^2.1.4",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "yup": "^1.0.2"
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
