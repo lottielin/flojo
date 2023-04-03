@@ -29,23 +29,19 @@ const getTime = () => {
 // };
 // ============ Journal ============
 
+const journalRef = doc(firebaseDb, "flojo", "journals");
 // const journalRef = firebaseDb.collection("journals");
 // SET; /journals/<userEmail>/<dateCreated>
 // {prompt, entry, dateUpdated}
 const addJournal = () => {};
 
-// UPDATE; /journals/<userEmail>/<dateCreated>/<timeUpdated>
+// UPDATE; doc: /flojo/journals/<userEmail>/<dateCreated>
 // {prompt, entry, timeUpdated}
 const updateJournal = (user, date, prompt, entry) => {
   var userEmail = user.email;
-  var timeUpdated = getTime();
-  const userJournalRef = doc(
-    firebaseDb,
-    "journals",
-    userEmail,
-    date,
-    timeUpdated
-  );
+  // var timeUpdated = getTime();
+
+  const userJournalRef = doc(journalRef, userEmail, date);
   const journalData = {
     prompt: prompt,
     entry: entry,
@@ -56,22 +52,28 @@ const updateJournal = (user, date, prompt, entry) => {
   });
 };
 
-// Uncaught (in promise) FirebaseError: Invalid collection reference.
-// Collection references must have an odd number of segments,
-// but journals/test1@gmail.com has 2.
-// GET; /journals/<userEmail>/<dateCreated>
-const getJournal = async (user, date) => {
+// GET; collection: /flojo/journals/<userEmail>/<dateCreated>
+// get most updated journal for today
+const getJournal = async (user, date, setPrompt, setEntry) => {
   var userEmail = user.email;
-  //   var timeUpdated = getTime();
-  const userJournalRef = collection(firebaseDb, "journals", userEmail, date);
+
+  const userJournalRef = collection(journalRef, userEmail, date);
   const docSnap = await getDocs(userJournalRef);
   docSnap.forEach((doc) => {
     console.log(doc.id, " => ", doc.data());
+    setEntry(doc.data().entry);
+    setPrompt(doc.data().prompt);
   });
 };
 
 // GET; /journals/<userEmail>
-const getJournals = () => {};
+const getJournalsbyEmail = () => {
+  // const userJournalRef = collection(firebaseDb, "journals", userEmail, date);
+  // const docSnap = await getDocs(userJournalRef);
+  // docSnap.forEach((doc) => {
+  //     console.log(doc.id, " => ", doc.data());
+  // });
+};
 
 // DELETE; /journals/<userEmail>/<dateCreated>
 const deleteJournal = () => {};

@@ -20,7 +20,8 @@ const Today = () => {
     setDate(getDate());
     auth.onAuthStateChanged((user) => {
       setUser(user && user.uid ? user : null);
-      //   fetchJournal(user, date);
+      console.log("Start getting journal in useEffect: ");
+      getJournal(user, date, setPrompt, setEntry);
     });
   }, []);
 
@@ -37,16 +38,9 @@ const Today = () => {
 
   const handleSave = () => {
     updateJournal(user, date, prompt, entry);
-    getJournal(user, date);
+    // getJournal(user, date);
   };
 
-  const fetchJournal = (user, date) => {
-    getJournal(user, date);
-    // docSnap.forEach((doc) => {
-    //   console.log(doc.data());
-    // });
-    // console.log(docSnap);
-  };
   return (
     <div>
       <div className="container">
@@ -55,13 +49,14 @@ const Today = () => {
           id="standard-basic"
           label="Standard"
           variant="standard"
-          placeholder="Prompt"
+          value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
         />
         <TextField
           id="outlined-multiline-flexible"
           label="Multiline"
           multiline
+          value={entry}
           onChange={(e) => setEntry(e.target.value)}
           placeholder="Start writing here..."
         />
