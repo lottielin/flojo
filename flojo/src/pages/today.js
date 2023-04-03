@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { firebaseApp } from "../popup/firebase_config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-import { getJournal, updateJournal } from "../components/dbUtils";
+import {
+  getJournal,
+  updateJournal,
+  getJournalsbyEmail,
+} from "../components/dbUtils";
 import TextField from "@mui/material/TextField";
 
 const auth = getAuth(firebaseApp);
@@ -20,7 +24,7 @@ const Today = () => {
     setDate(getDate());
     auth.onAuthStateChanged((user) => {
       setUser(user && user.uid ? user : null);
-      console.log("Start getting journal in useEffect: ");
+      console.log("Start retrieving journal in useEffect: ");
       getJournal(user, date, setPrompt, setEntry);
     });
   }, []);
@@ -38,7 +42,6 @@ const Today = () => {
 
   const handleSave = () => {
     updateJournal(user, date, prompt, entry);
-    // getJournal(user, date);
   };
 
   return (

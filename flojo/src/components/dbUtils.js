@@ -57,8 +57,8 @@ const updateJournal = (user, date, prompt, entry) => {
 const getJournal = async (user, date, setPrompt, setEntry) => {
   var userEmail = user.email;
 
-  const userJournalRef = collection(journalRef, userEmail, date);
-  const docSnap = await getDocs(userJournalRef);
+  const dateJournalRef = collection(journalRef, userEmail, date);
+  const docSnap = await getDocs(dateJournalRef);
   docSnap.forEach((doc) => {
     console.log(doc.id, " => ", doc.data());
     setEntry(doc.data().entry);
@@ -66,13 +66,18 @@ const getJournal = async (user, date, setPrompt, setEntry) => {
   });
 };
 
-// GET; /journals/<userEmail>
-const getJournalsbyEmail = () => {
+// GET; /flojo/journals/<userEmail>
+const getJournalsbyEmail = async (user, setAllJournals) => {
+  var userEmail = user.email;
+  var allJournals = [];
+  const userJournalRef = collection(journalRef, userEmail);
   // const userJournalRef = collection(firebaseDb, "journals", userEmail, date);
-  // const docSnap = await getDocs(userJournalRef);
-  // docSnap.forEach((doc) => {
-  //     console.log(doc.id, " => ", doc.data());
-  // });
+  const docSnap = await getDocs(userJournalRef);
+  docSnap.forEach((doc) => {
+    allJournals.push(doc.data());
+  });
+  console.log(allJournals);
+  setAllJournals(allJournals);
 };
 
 // DELETE; /journals/<userEmail>/<dateCreated>
@@ -97,4 +102,4 @@ const getPromptByUser = () => {};
 // {uid, subscription, notification, ...}
 const addUser = () => {};
 
-export { addJournal, updateJournal, getJournal };
+export { addJournal, updateJournal, getJournal, getJournalsbyEmail };
