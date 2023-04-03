@@ -4,15 +4,8 @@ import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { firebaseApp } from "../popup/firebase_config";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithCredential,
-  GoogleAuthProvider,
-  setPersistence,
-  browserLocalPersistence,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 const auth = getAuth(firebaseApp);
 
 const Home = () => {
@@ -34,6 +27,8 @@ const Home = () => {
   return (
     <div>
       <div className="container">Home</div>
+      <button onClick={() => navigate("/today")}>Start today's journal</button>
+      <button onClick={() => navigate("/explore")}>Explore more prompts</button>
       <h1>Signed in as {user ? user.email : ""}.</h1>
       <button onClick={handleSignout}>Sign Out?</button>
     </div>
