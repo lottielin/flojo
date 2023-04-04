@@ -47,21 +47,25 @@ const Today = () => {
   return (
     <div>
       <div className="container">
-        Today's journal
+        <div>Today's journal</div>
         <TextField
           id="standard-basic"
-          label="Standard"
           variant="standard"
           value={prompt}
+          //   defaultValue
+          fullWidth
           onChange={(e) => setPrompt(e.target.value)}
+          autoFocus={false}
+          disableUnderline={true}
         />
         <TextField
           id="outlined-multiline-flexible"
-          label="Multiline"
           multiline
+          fullWidth
           value={entry}
           onChange={(e) => setEntry(e.target.value)}
           placeholder="Start writing here..."
+          disableUnderline={true}
         />
         <button onClick={handleSave}>Save journal</button>
         <button onClick={() => navigate("/home")}>Back to home</button>
